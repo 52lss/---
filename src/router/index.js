@@ -4,6 +4,11 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/login',
+    // 路由懒加载 提示首屏加载速度
+    component: () => import('@/views/login')
+  }
 ]
 
 const router = new VueRouter({
