@@ -1,3 +1,4 @@
+// import store from '@/store'
 // 根据后端接口文段大类划分
 import request from '@/utils/request'
 /**
@@ -25,5 +26,16 @@ export const sendCodeAPI = (mobile) => {
   return request({
     method: 'get',
     url: `/v1_0/sms/codes/${mobile}`
+  })
+}
+/**
+ * 获取用户信息
+ * @returns Promise
+ */
+export const getUserInfoAPI = () => {
+  return request({
+    method: 'get',
+    url: '/v1_0/user'
+    // headers: { Authorization: `Bearer ${store.state.tokenObj.token}` }
   })
 }
