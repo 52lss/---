@@ -19,7 +19,7 @@
                 height="1.5rem"
                 :src="UserInfo.photo"
               />
-              <span class="mobile">{{UserInfo.name}}</span>
+              <span class="mobile">{{ UserInfo.name }}</span>
             </van-row>
           </van-col>
 
@@ -136,8 +136,8 @@ export default {
       try {
         if (!this.isLogin) return
         const { data } = await getUserInfoAPI()
-        this.UserInfo = data.data
         console.log(data)
+        this.UserInfo = data.data
       } catch (error) {
         // error
         // 1.js导致的 2.axios导致的
