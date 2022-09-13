@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 1.executor 执行器函数
+        // 2.resolve 把promise 变成成功态，reject：把promise变成失败态
+        // 3.value： 记录成功的原因 reason：失败的原因
+        // 4.promise 有三种状态：1.pending 准备态 2. fulfilled 完成态 3.拒绝态
+        // 5.promise状态只能改变一次，都是由pending--->  fulfilled 或者 pending--->  rejected  不能是fulfilled完成态与rejected相互转换
+        // 6.promise 在执行过程中，任何错误都会导致promise 变成失败态
+        // 7.promise必须要有then方法，onFulfilled成功的回调,onRejected失败的回调
+        // 8.
+        const PENDING = ' pending'
+        const FULFILLED = ' fulfilled'
+        const REJECTED = ' rejected'
+        class Promise {
+            value
+            reason
+            status = PENDING
+            // 把存储的数据用数组的形式存放
+            onFulfilledCallBack = []
+            onRejectCallBack = []
+            constructor (executor) {
+                const resolve = (value) => {
+                   if(this.status === PENDING) {
+                    this.value = value
+                    this.status = FULFILLED
+                    // this.onFulfilled(this.value)
+                    this.onFulfilledCallBacks.forEach(cb =>cb())
+                   }
+                }
+                const reject = (reason) => {
+                    if(this.status === PENDING) {
+                        this.reason = reason
+                    this.status = REJECTED
+                    // this.onRejected(this.reason)
+                    this.onRejectedCallBacks.forEach(cb =>cb())
+
+                    }
+                }
+                try {
+                    executor(resolve,reject)
+                }catch(error){
+                    reject(error)
+                }
+            }
+            then(onFulfilled, onRejected) {
+                if(this.status === FULFILLED) {
+                    onFulfilled(this.value)
+                }
+                if(this.status === REJECTED) {
+                    onRejected(this.reason)
+                }
+                if(this.status === PENDING) {
+                    // 异步
+                    // 订阅
+                    // this.onFulfilled = onFulfilled
+                    // this.onRejected = onRejected
+                    this.onFulfilledCallBacks.push(() => {
+                    // 多写逻辑
+                    onFulfilled(this.value)
+                })
+
+                   this.onRejectedCallBacks.push(() => {
+                     onRejected(this.reason)
+                   })
+                }
+            }
+        }
+        console.log(new Promise((resolve, reject) =>{
+            resolve()
+            reject('失败')
+        }))
+        // const p1 = new Promise(() => { }) //Pending
+        // const p2 = new Promise((resolve) => resolve()) // fulfilled
+        // const p3 = new Promise((resolve, reject) => reject()) // rejected
+    
+        // console.log(
+        //   'p1', p1,
+        //   'p2', p2,
+        //   'p3', p3
+        // )
+        // const p = new Promise((resolve, reject) => {
+        //     resolve(a.a)
+        // })
+        // console.log(p);
+
+    //     const p = new Promise((resolve, reject) => {
+    //         resolve('失败')
+    //     })
+    //    p.then(
+    //     (res) => console.log(res),
+    //     (err) => console.log(err)
+    //     )
+    // const p = new Promise((resolve, reject) => {
+    //     // 异步任务
+    // setTimeout(() =>{
+    //     resolve('失败')
+    // },1000)
+    // })
+    // p.then(
+    // (res) => console.log(res),
+    // (err) => console.log(err)
+    // )
+    const p = new Promise((resolve, reject) => {
+      // resolve('成功') // 同步情况
+
+      setTimeout(() => {
+        resolve('成功') // 异步情况
+      }, 1000)
+    })
+
+    p.then(
+      (res) => console.log('第一次then', res),
+    )
+    p.then(
+      (res) => console.log('第二次then', res),
+    )
+    </script>
+</body>
+</html>
