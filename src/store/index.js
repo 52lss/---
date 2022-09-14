@@ -15,15 +15,15 @@ export default new Vuex.Store({
     createpersistedstate({
       key: 'vuex',
       // storage: window.sessionStorage
-      reducer({ tokenObj }) {
-        return { tokenObj }
+      reducer({ tokenObj, myChannels }) {
+        return { tokenObj, myChannels }
       }
     })
   ],
   state: {
     // tokenObj: JSON.parse(window.localStorage.getItem('TOUBIAO_TOKEN')) || {}
     tokenObj: {},
-    a: 1
+    myChannels: []
   },
   getters: {
     // 判断是否有token 用于渲染登录前后的数据的判断
@@ -37,6 +37,9 @@ export default new Vuex.Store({
       // 将token存到本地
       state.tokenObj = token
       // window.localStorage.setItem('TOUBIAO_TOKEN', JSON.stringify(token))
+    },
+    SET_MY_CHANNEL(state, channels) {
+      state.myChannels = channels
     }
   },
   actions: {},

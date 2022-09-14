@@ -51,11 +51,19 @@
                 }
             }
             then(onFulfilled, onRejected) {
+             
+                const p2 = new Promise((resolve, reject) => {
                 if(this.status === FULFILLED) {
-                    onFulfilled(this.value)
+                    queueMicrotask(() => {
+                        try{onFulfilled(this.value)}catch(error){reject(error)}
+                    })
                 }
                 if(this.status === REJECTED) {
-                    onRejected(this.reason)
+                    queueMicrotask(() => {
+                        try{onRejected(this.reason)}catch(error){reject(error)}
+                    })
+                   
+
                 }
                 if(this.status === PENDING) {
                     // 异步
@@ -64,13 +72,21 @@
                     // this.onRejected = onRejected
                     this.onFulfilledCallBacks.push(() => {
                     // 多写逻辑
-                    onFulfilled(this.value)
-                })
+                    queueMicrotask(() => {
+                        try{onFulfilled(this.value)}catch(error){reject(error)}
+                    })
 
+                })
                    this.onRejectedCallBacks.push(() => {
-                     onRejected(this.reason)
+                    queueMicrotask(() => {
+                        try{onRejected(this.reason)}catch(error){reject(error)}
+
+                    })
+
                    })
                 }
+                })
+                return  p2
             }
         }
         console.log(new Promise((resolve, reject) =>{
@@ -81,6 +97,7 @@
         // const p2 = new Promise((resolve) => resolve()) // fulfilled
         // const p3 = new Promise((resolve, reject) => reject()) // rejected
     
+
         // console.log(
         //   'p1', p1,
         //   'p2', p2,
@@ -90,6 +107,8 @@
         //     resolve(a.a)
         // })
         // console.log(p);
+
+
 
     //     const p = new Promise((resolve, reject) => {
     //         resolve('失败')
@@ -108,20 +127,26 @@
     // (res) => console.log(res),
     // (err) => console.log(err)
     // )
-    const p = new Promise((resolve, reject) => {
-      // resolve('成功') // 同步情况
 
-      setTimeout(() => {
-        resolve('成功') // 异步情况
-      }, 1000)
-    })
 
-    p.then(
-      (res) => console.log('第一次then', res),
-    )
-    p.then(
-      (res) => console.log('第二次then', res),
-    )
+    // const p = new Promise((resolve, reject) => {
+    //   // resolve('成功') // 同步情况
+
+    //   setTimeout(() => {
+    //     resolve('成功') // 异步情况
+    //   }, 1000)
+    // })
+
+    // then方法实现
+    // p.then(
+    //   (res) => console.log('第一次then', res),
+    // )
+    // p.then(
+    //   (res) => console.log('第二次then', res),
+    // )
+
+    //then 链式调用
+    // p.then(() =>{}).then(() =>{})
     </script>
 </body>
 </html>
