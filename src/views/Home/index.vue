@@ -1,14 +1,20 @@
 <template>
   <div>
     <!-- 搜索框 -->
-    <van-nav-bar class="navbar" >
+    <van-nav-bar class="navbar">
       <template #title>
-        <van-button icon="search" size="small" round block to="/search">搜索</van-button>
+        <van-button icon="search" size="small" round block to="/search"
+          >搜索</van-button
+        >
       </template>
     </van-nav-bar>
     <!-- 频道及文章 -->
     <van-tabs v-model="active" swipeable>
-      <van-tab v-for="item in channels" :key="item.id" :title="item.name">
+      <van-tab
+        v-for="item in channels"
+        :key="item.id"
+        :title="item.name"
+      >
         <ArticleList :id="item.id"></ArticleList>
       </van-tab>
       <span class="toutiao toutiao-gengduo" @click="isShow = true"></span>
@@ -22,7 +28,7 @@
       close-icon-position="top-left"
     >
       <ChannelEdit
-      v-if="isShow"
+        v-if="isShow"
         @change-active=";[(isShow = false), (active = $event)]"
         :myChannels="channels"
         @del-channel="delChannel"
@@ -82,6 +88,7 @@ export default {
         const { data } = await getchannelApi()
         // console.log(data)
         this.channels = data.data.channels
+        // console.log(this.channels)
       } catch (err) {
         if (!err.response) {
           throw err

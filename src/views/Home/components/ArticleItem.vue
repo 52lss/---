@@ -5,22 +5,20 @@
       v-if="article.cover.type === 0"
       :title="article.title"
       :label="label"
+      :to="`/detail/${article.art_id}`"
     ></van-cell>
     <!-- 一张图片 -->
     <van-cell
       v-else-if="article.cover.type === 1"
       :title="article.title"
       :label="label"
+      :to="`/detail/${article.art_id}`"
     >
-      <van-image
-        width="100"
-        height="100"
-        :src="article.cover.images[0]"
-      />
+      <van-image width="100" height="100" :src="article.cover.images[0]" />
     </van-cell>
 
     <!-- 三张图片 -->
-    <van-cell v-else :title="article.title">
+    <van-cell v-else :title="article.title" :to="`/detail/${article.art_id}`">
       <template #label>
         <van-image
           v-for="(item, index) in article.cover.images"
@@ -29,7 +27,7 @@
           height="100"
           :src="item"
         />
-            <p>{{label}}</p>
+        <p>{{ label }}</p>
       </template>
     </van-cell>
   </div>
@@ -43,6 +41,9 @@ export default {
       type: Object,
       default: () => ({})
     }
+  },
+  created() {
+    // console.log(this.article)
   },
   computed: {
     label() {

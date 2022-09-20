@@ -18,6 +18,7 @@
           v-for="item in articles"
           :key="item.art_id"
           :article="item"
+
         ></ArticleItem>
       </van-list>
     </van-pull-refresh>
@@ -51,6 +52,7 @@ export default {
         const { data } = await getArticleAPI(this.id, +new Date())
 
         this.articles = data.data.results
+        // console.log(this.articles)
         // 保存下一页时间戳，用于分页
         this.preTimestamp = data.data.pre_timestamp
       } catch (error) {
@@ -67,9 +69,9 @@ export default {
     // 获取下页的数据
     async getNextPageArticle() {
       try {
-        // if (Math.random() < 0.5) {
-        //   throw new Error()
-        // }
+        if (Math.random() < 0.5) {
+          throw new Error()
+        }
         // 1.发送请求
         const { data } = await getArticleAPI(this.id, this.preTimestamp)
         // console.log(data)

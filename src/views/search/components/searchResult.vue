@@ -12,11 +12,19 @@
         v-for="item in results"
         :key="item.art_id"
         :title="item.title"
-        @click="$router.push({
-          path:'/detail',
-          query: {articleId: item.art_id}
-        })"
+        @click="
+          $router.push({
+            path: '/detail',
+            query: { articleId: item.art_id }
+          })
+        "
       ></van-cell>
+      <!-- @click="
+          $router.push({
+            path: '/detail',
+            query: { articleId: item.art_id }
+          })
+        " -->
     </van-list>
   </div>
 </template>
@@ -59,6 +67,7 @@ export default {
         // 保存数据
         // this.results.push(...data.data.results)
         this.results = [...this.results, ...results]
+        console.log(this.results)
       } catch {
         this.error = true
       } finally {
